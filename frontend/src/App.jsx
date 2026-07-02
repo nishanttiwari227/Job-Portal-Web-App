@@ -9,6 +9,12 @@ import LogoutPage from './features/auth/pages/LogoutPage.jsx';
 import CandidateDashboardPage from './features/candidate/pages/CandidateDashboardPage.jsx';
 import RecruiterDashboardPage from './features/recruiter/pages/RecruiterDashboardPage.jsx';
 import { useAuthStore } from './store/authStore.js';
+import CandidateWorkspace from './features/candidate/CandidateWorkspace.jsx';
+import ProfilePage from './features/candidate/pages/ProfilePage.jsx';
+import ResumePage from './features/candidate/pages/ResumePage.jsx';
+import SavedJobsPage from './features/candidate/pages/SavedJobsPage.jsx';
+import NotificationsPage from './features/candidate/pages/NotificationsPage.jsx';
+import SettingsPage from './features/candidate/pages/SettingsPage.jsx';
 
 const DashboardRoute = () => {
   const user = useAuthStore((state) => state.user);
@@ -75,6 +81,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="candidate" element={<ProtectedRoute><CandidateWorkspace /></ProtectedRoute>}>
+          <Route path="profile" element={<ProfilePage />} />
+          <Route path="resume" element={<ResumePage />} />
+          <Route path="saved-jobs" element={<SavedJobsPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+          <Route index element={<Navigate to="/candidate/profile" replace />} />
+        </Route>
         <Route
           path="recruiter-dashboard"
           element={
