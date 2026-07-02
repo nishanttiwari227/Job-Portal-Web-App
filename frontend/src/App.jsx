@@ -15,6 +15,12 @@ import ResumePage from './features/candidate/pages/ResumePage.jsx';
 import SavedJobsPage from './features/candidate/pages/SavedJobsPage.jsx';
 import NotificationsPage from './features/candidate/pages/NotificationsPage.jsx';
 import SettingsPage from './features/candidate/pages/SettingsPage.jsx';
+import RecruiterWorkspace from './features/recruiter/RecruiterWorkspace.jsx';
+import CompanyPage from './features/recruiter/pages/CompanyPage.jsx';
+import JobsPage from './features/recruiter/pages/JobsPage.jsx';
+import JobFormPage from './features/recruiter/pages/JobFormPage.jsx';
+import ApplicantsPage from './features/recruiter/pages/ApplicantsPage.jsx';
+import RecruiterSettings from './features/recruiter/pages/RecruiterSettings.jsx';
 
 const DashboardRoute = () => {
   const user = useAuthStore((state) => state.user);
@@ -97,9 +103,31 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="recruiter"
+          element={
+            <ProtectedRoute>
+              <RecruiterOnly />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="company" element={<CompanyPage />} />
+          <Route path="jobs" element={<JobsPage />} />
+          <Route path="jobs/new" element={<JobFormPage />} />
+          <Route path="jobs/:id/edit" element={<JobFormPage />} />
+          <Route path="applicants" element={<ApplicantsPage />} />
+          <Route path="settings" element={<RecruiterSettings />} />
+          <Route index element={<Navigate to="/recruiter/company" replace />} />
+        </Route>
       </Route>
     </Routes>
   );
 }
+
+const RecruiterOnly = () => {
+  const user = useAuthStore((state) => state.user);
+  if (user?.role !== 'recruiter') return <Navigate to="/dashboard" replace />;
+  return <RecruiterWorkspace />;
+};
 
 export default App;
