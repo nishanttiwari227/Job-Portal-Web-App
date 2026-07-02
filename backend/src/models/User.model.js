@@ -10,6 +10,12 @@ const profileSchema = new mongoose.Schema(
     location: { type: String, default: '', trim: true },
     skills: { type: [String], default: [] },
     resumeUrl: { type: String, default: '' },
+    resume: {
+      url: { type: String, default: '', trim: true },
+      publicId: { type: String, default: '', trim: true },
+      originalFileName: { type: String, default: '', trim: true },
+      uploadedAt: { type: Date, default: null },
+    },
     companyName: { type: String, default: '', trim: true },
     companyWebsite: { type: String, default: '', trim: true },
     jobTitle: { type: String, default: '', trim: true },
