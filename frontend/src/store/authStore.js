@@ -20,7 +20,7 @@ export const useAuthStore = create((set) => ({
   isAuthenticated: Boolean(initialUser),
   setUser: (user) => {
     if (typeof window !== 'undefined') {
-      window.localStorage.setItem('jobPortalUser', JSON.stringify(user));
+        window.localStorage.setItem('jobPortalUser', JSON.stringify(user));
     }
     set({ user, isAuthenticated: Boolean(user) });
   },

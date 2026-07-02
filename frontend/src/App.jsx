@@ -6,6 +6,7 @@ import LoginPage from './features/auth/pages/LoginPage.jsx';
 import RegisterPage from './features/auth/pages/RegisterPage.jsx';
 import EmailVerificationPage from './features/auth/pages/EmailVerificationPage.jsx';
 import LogoutPage from './features/auth/pages/LogoutPage.jsx';
+import CandidateDashboardPage from './features/candidate/pages/CandidateDashboardPage.jsx';
 
 function App() {
   return (
@@ -48,7 +49,7 @@ function App() {
           path="dashboard"
           element={
             <ProtectedRoute>
-              <div className="text-center text-slate-700">Dashboard placeholder</div>
+              <CandidateDashboardPage />
             </ProtectedRoute>
           }
         />

@@ -30,7 +30,7 @@ const LoginPage = () => {
 
     try {
       const data = await login(values);
-      setUser(data.data.user);
+      setUser({ ...data.data.user, accessToken: data.data.accessToken });
       toast.success('Login successful');
       navigate('/dashboard');
     } catch (error) {
