@@ -94,6 +94,12 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    savedJobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Job',
+      },
+    ],
     profile: {
       type: profileSchema,
       default: () => ({}),
