@@ -9,6 +9,7 @@ import candidateResumeRoutes from './candidateResume.routes.js';
 import jobRoutes from './job.routes.js';
 import applicationRoutes from './application.routes.js';
 import savedJobRoutes from './savedJob.routes.js';
+import notificationRoutes from './notification.routes.js';
 
 const router = Router();
 
@@ -21,5 +22,6 @@ router.use(`${API_PREFIX}/candidate`, candidateResumeRoutes);
 router.use(`${API_PREFIX}/jobs`, jobRoutes);
 router.use(`${API_PREFIX}/applications`, applicationRoutes);
 router.use(`${API_PREFIX}/saved-jobs`, savedJobRoutes);
+router.use(`${API_PREFIX}/notifications`, notificationRoutes);
 
 export default router;
