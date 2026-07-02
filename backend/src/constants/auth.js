@@ -1,0 +1,9 @@
+import { USER_ROLES } from './app.js';
+
+const REFRESH_TOKEN_COOKIE = 'refreshToken';
+
+const REGISTERABLE_ROLES = [USER_ROLES.CANDIDATE, USER_ROLES.RECRUITER];
+
+const AUTH_COOKIE_PATH = '/api/v1/auth';
+
+export { REFRESH_TOKEN_COOKIE, REGISTERABLE_ROLES, AUTH_COOKIE_PATH };
