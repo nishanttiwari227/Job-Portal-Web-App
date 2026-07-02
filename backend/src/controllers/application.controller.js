@@ -1,20 +1,17 @@
+import HTTP_STATUS from '../constants/httpStatus.js';
 import asyncHandler from '../utils/asyncHandler.js';
-import { validationResult } from 'express-validator';
+import { sendSuccess } from '../utils/apiResponse.js';
 import * as applicationService from '../services/application.service.js';
-import ApiError from '../utils/apiError.js';
 
 const applyToJob = asyncHandler(async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw ApiError.badRequest('Validation failed', { errors: errors.array() });
-  }
-
   const application = await applicationService.createApplication({
-    candidateId: req.user.id,
+    candidateId: req.user.userId,
     jobId: req.body.job,
   });
 
-  res.status(201).json({ success: true, data: application });
+  sendSuccess(res, HTTP_STATUS.CREATED, 'Application submitted successfully', {
+    application,
+  });
 });
 
 const listMyApplications = asyncHandler(async (req, res) => {
@@ -22,60 +19,49 @@ const listMyApplications = asyncHandler(async (req, res) => {
   const limit = Number(req.query.limit) || 20;
 
   const result = await applicationService.getMyApplications({
-    candidateId: req.user.id,
+    candidateId: req.user.userId,
     page,
     limit,
   });
 
-  res.json({ success: true, data: result });
+  sendSuccess(res, HTTP_STATUS.OK, 'Applications listed successfully', result);
 });
 
 const withdrawApplication = asyncHandler(async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw ApiError.badRequest('Validation failed', { errors: errors.array() });
-  }
-
   const application = await applicationService.withdrawApplication({
-    candidateId: req.user.id,
+    candidateId: req.user.userId,
     applicationId: req.params.id,
   });
 
-  res.json({ success: true, data: application });
+  sendSuccess(res, HTTP_STATUS.OK, 'Application withdrawn successfully', {
+    application,
+  });
 });
 
 const listJobApplications = asyncHandler(async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw ApiError.badRequest('Validation failed', { errors: errors.array() });
-  }
-
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 20;
 
   const result = await applicationService.getJobApplications({
-    recruiterId: req.user.id,
+    recruiterId: req.user.userId,
     jobId: req.params.jobId,
     page,
     limit,
   });
 
-  res.json({ success: true, data: result });
+  sendSuccess(res, HTTP_STATUS.OK, 'Job applications listed successfully', result);
 });
 
 const updateApplicationStatus = asyncHandler(async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw ApiError.badRequest('Validation failed', { errors: errors.array() });
-  }
-
   const application = await applicationService.updateApplicationStatus({
-    recruiterId: req.user.id,
+    recruiterId: req.user.userId,
     applicationId: req.params.id,
     status: req.body.status,
   });
 
-  res.json({ success: true, data: application });
+  sendSuccess(res, HTTP_STATUS.OK, 'Application status updated successfully', {
+    application,
+  });
 });
 
 export {

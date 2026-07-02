@@ -1,7 +1,8 @@
 import express from 'express';
 import * as applicationController from '../controllers/application.controller.js';
-import { authenticate } from '../middlewares/authenticate.middleware.js';
-import { authorize } from '../middlewares/authorize.middleware.js';
+import authenticate from '../middlewares/authenticate.middleware.js';
+import authorize from '../middlewares/authorize.middleware.js';
+import validate from '../middlewares/validate.middleware.js';
 import { USER_ROLES } from '../constants/app.js';
 import {
   createApplicationValidationRules,
@@ -16,42 +17,47 @@ const router = express.Router();
 router.post(
   '/apply',
   authenticate,
-  authorize([USER_ROLES.CANDIDATE]),
+  authorize(USER_ROLES.CANDIDATE),
   createApplicationValidationRules,
+  validate,
   applicationController.applyToJob
 );
 
 router.get(
   '/me',
   authenticate,
-  authorize([USER_ROLES.CANDIDATE]),
+  authorize(USER_ROLES.CANDIDATE),
   listApplicationsValidationRules,
+  validate,
   applicationController.listMyApplications
 );
 
 router.patch(
   '/:id/withdraw',
   authenticate,
-  authorize([USER_ROLES.CANDIDATE]),
+  authorize(USER_ROLES.CANDIDATE),
   idValidationRules,
+  validate,
   applicationController.withdrawApplication
 );
 
 router.get(
   '/job/:jobId',
   authenticate,
-  authorize([USER_ROLES.RECRUITER]),
+  authorize(USER_ROLES.RECRUITER),
   jobIdValidationRules,
   listApplicationsValidationRules,
+  validate,
   applicationController.listJobApplications
 );
 
 router.patch(
   '/:id/status',
   authenticate,
-  authorize([USER_ROLES.RECRUITER]),
+  authorize(USER_ROLES.RECRUITER),
   idValidationRules,
   updateApplicationStatusValidationRules,
+  validate,
   applicationController.updateApplicationStatus
 );
 
