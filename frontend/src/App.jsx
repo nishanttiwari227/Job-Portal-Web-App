@@ -7,6 +7,28 @@ import RegisterPage from './features/auth/pages/RegisterPage.jsx';
 import EmailVerificationPage from './features/auth/pages/EmailVerificationPage.jsx';
 import LogoutPage from './features/auth/pages/LogoutPage.jsx';
 import CandidateDashboardPage from './features/candidate/pages/CandidateDashboardPage.jsx';
+import RecruiterDashboardPage from './features/recruiter/pages/RecruiterDashboardPage.jsx';
+import { useAuthStore } from './store/authStore.js';
+
+const DashboardRoute = () => {
+  const user = useAuthStore((state) => state.user);
+
+  if (user?.role === 'recruiter') {
+    return <Navigate to="/recruiter-dashboard" replace />;
+  }
+
+  return <CandidateDashboardPage />;
+};
+
+const RecruiterDashboardRoute = () => {
+  const user = useAuthStore((state) => state.user);
+
+  if (user?.role !== 'recruiter') {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <RecruiterDashboardPage />;
+};
 
 function App() {
   return (
@@ -49,7 +71,15 @@ function App() {
           path="dashboard"
           element={
             <ProtectedRoute>
-              <CandidateDashboardPage />
+              <DashboardRoute />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="recruiter-dashboard"
+          element={
+            <ProtectedRoute>
+              <RecruiterDashboardRoute />
             </ProtectedRoute>
           }
         />

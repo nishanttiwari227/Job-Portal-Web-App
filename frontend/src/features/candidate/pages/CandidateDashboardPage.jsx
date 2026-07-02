@@ -79,16 +79,16 @@ const { data: notificationsData, isLoading: notificationsLoading, error: notific
               <DashboardPlaceholder message="Loading profile details..." />
             ) : profile ? (
               <div className="space-y-4">
-                <p className="text-sm text-slate-600">{profile.profile?.headline || 'No headline set yet'}</p>
+                <p className="text-sm text-slate-600">{profile.headline || 'No headline set yet'}</p>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
                     <p className="text-sm text-slate-500">Location</p>
-                    <p className="mt-2 text-base font-semibold text-slate-900">{profile.profile?.location || 'Not specified'}</p>
+                    <p className="mt-2 text-base font-semibold text-slate-900">{profile.location || 'Not specified'}</p>
                   </div>
                   <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
                     <p className="text-sm text-slate-500">Experience</p>
                     <p className="mt-2 text-base font-semibold text-slate-900">
-                      {profile.profile?.experience ? `${profile.profile.experience} years` : 'Not set'}
+                      {profile.experience ? `${profile.experience} years` : 'Not set'}
                     </p>
                   </div>
                 </div>
