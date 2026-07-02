@@ -21,6 +21,8 @@ import JobsPage from './features/recruiter/pages/JobsPage.jsx';
 import JobFormPage from './features/recruiter/pages/JobFormPage.jsx';
 import ApplicantsPage from './features/recruiter/pages/ApplicantsPage.jsx';
 import RecruiterSettings from './features/recruiter/pages/RecruiterSettings.jsx';
+import JobsListPage from './features/jobs/pages/JobsListPage.jsx';
+import JobDetailsPage from './features/jobs/pages/JobDetailsPage.jsx';
 
 const DashboardRoute = () => {
   const user = useAuthStore((state) => state.user);
@@ -95,6 +97,8 @@ function App() {
           <Route path="settings" element={<SettingsPage />} />
           <Route index element={<Navigate to="/candidate/profile" replace />} />
         </Route>
+        <Route path="jobs" element={<ProtectedRoute><JobsListPage /></ProtectedRoute>} />
+        <Route path="jobs/:slug" element={<ProtectedRoute><JobDetailsPage /></ProtectedRoute>} />
         <Route
           path="recruiter-dashboard"
           element={

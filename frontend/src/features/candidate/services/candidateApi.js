@@ -32,6 +32,11 @@ const removeSavedJob = async (jobId) => {
   return response.data;
 };
 
+const saveJob = async (jobId) => {
+  const response = await apiClient.post(`/saved-jobs/${jobId}`);
+  return response.data;
+};
+
 const listNotifications = async ({ page = 1, limit = 20 } = {}) => {
   const response = await apiClient.get('/notifications', { params: { page, limit } });
   return response.data;
@@ -57,4 +62,5 @@ export {
   listNotifications,
   markNotificationRead,
   markAllNotificationsRead,
+  saveJob,
 };
