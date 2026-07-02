@@ -7,6 +7,7 @@ import recruiterProfileRoutes from './recruiterProfile.routes.js';
 import candidateProfileRoutes from './candidateProfile.routes.js';
 import candidateResumeRoutes from './candidateResume.routes.js';
 import jobRoutes from './job.routes.js';
+import applicationRoutes from './application.routes.js';
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use(`${API_PREFIX}/recruiter`, recruiterProfileRoutes);
 router.use(`${API_PREFIX}/candidate`, candidateProfileRoutes);
 router.use(`${API_PREFIX}/candidate`, candidateResumeRoutes);
 router.use(`${API_PREFIX}/jobs`, jobRoutes);
+router.use(`${API_PREFIX}/applications`, applicationRoutes);
 
 export default router;
