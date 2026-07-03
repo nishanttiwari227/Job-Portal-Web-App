@@ -8,8 +8,8 @@ const ResumePage = () => {
   const qc = useQueryClient();
   const { data, isLoading } = useQuery({ queryKey: ['candidateProfile'], queryFn: getCandidateProfile });
 
-  const profile = data?.data?.profile || {};
-
+  const profile = data?.profile || data || {};
+  
   const uploadMutation = useMutation({
     mutationFn: (file) => uploadResume(file),
     onSuccess: () => {
@@ -19,6 +19,13 @@ const ResumePage = () => {
     onError: (err) => toast.error(err?.response?.data?.message || 'Upload failed'),
   });
 
+  const onFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    uploadMutation.mutate(file);
+    e.target.value = ''; // FIX: Reset input to allow re-selection
+  };
+
   const deleteMutation = useMutation({
     mutationFn: () => deleteResume(),
     onSuccess: () => {
@@ -27,12 +34,6 @@ const ResumePage = () => {
     },
     onError: (err) => toast.error(err?.response?.data?.message || 'Delete failed'),
   });
-
-  const onFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    uploadMutation.mutate(file);
-  };
 
   if (isLoading) return <DashboardPlaceholder message="Loading resume..." />;
 
@@ -47,7 +48,8 @@ const ResumePage = () => {
               <div className="flex gap-2">
                 <label className="rounded-lg bg-slate-900 px-4 py-2 text-white cursor-pointer">
                   Replace
-                  <input type="file" className="hidden" onChange={onFileChange} />
+                  {/* FIX: Added accept attribute */}
+                  <input type="file" accept=".pdf,application/pdf" className="hidden" onChange={onFileChange} />
                 </label>
                 <button onClick={() => deleteMutation.mutate()} className="rounded-lg border px-4 py-2">Delete</button>
               </div>
@@ -57,7 +59,8 @@ const ResumePage = () => {
               <p className="text-sm text-slate-600">No resume uploaded yet.</p>
               <label className="mt-2 inline-block rounded-lg bg-slate-900 px-4 py-2 text-white cursor-pointer">
                 Upload resume
-                <input type="file" className="hidden" onChange={onFileChange} />
+                {/* FIX: Added accept attribute */}
+                <input type="file" accept=".pdf,application/pdf" className="hidden" onChange={onFileChange} />
               </label>
             </div>
           )}

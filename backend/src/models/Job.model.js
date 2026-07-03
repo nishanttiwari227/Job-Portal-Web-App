@@ -128,7 +128,7 @@ jobSchema.index({ title: 'text', description: 'text', skills: 'text' });
 jobSchema.index({ company: 1, recruiter: 1, status: 1, isDeleted: 1 });
 jobSchema.index({ location: 1, jobType: 1, workMode: 1, experienceLevel: 1 });
 
-jobSchema.pre('save', async function ensureSlug(next) {
+jobSchema.pre('validate', async function ensureSlug(next) {
   if (!this.isModified('title') && this.slug) {
     return next();
   }

@@ -17,7 +17,8 @@ const NavItem = ({ to, label }) => {
 };
 
 const CandidateSidebar = () => (
-  <aside className="hidden lg:block w-64 shrink-0">
+  // FIX: Removed "hidden lg:block w-64 shrink-0" so it shows in mobile drawer
+  <div className="w-full h-full p-4 md:p-0">
     <div className="space-y-3 rounded-2xl border border-slate-200 bg-white p-4">
       <h3 className="text-sm font-semibold text-slate-700">Candidate</h3>
       <nav className="mt-2 space-y-1">
@@ -29,7 +30,7 @@ const CandidateSidebar = () => (
         <NavItem to="/candidate/settings" label="Settings" />
       </nav>
     </div>
-  </aside>
+  </div>
 );
 
 export default CandidateSidebar;

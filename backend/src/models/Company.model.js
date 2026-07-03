@@ -103,7 +103,7 @@ companySchema.index({ slug: 1 }, { unique: true });
 companySchema.index({ ownerRecruiter: 1, isDeleted: 1 });
 companySchema.index({ name: 'text', description: 'text', industry: 'text', location: 'text' });
 
-companySchema.pre('save', async function hashSlug(next) {
+companySchema.pre('validate', async function hashSlug(next) {
   if (!this.isModified('name') && this.slug) {
     return next();
   }

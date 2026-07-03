@@ -13,7 +13,14 @@ const updateCandidateProfile = async (payload) => {
 const uploadResume = async (file) => {
   const fd = new FormData();
   fd.append('resume', file);
-  const response = await apiClient.post('/candidate/resume', fd);
+  
+  // FIX: Override the global application/json header for this specific request
+  const response = await apiClient.post('/candidate/resume', fd, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  
   return response.data?.data || response.data;
 };
 

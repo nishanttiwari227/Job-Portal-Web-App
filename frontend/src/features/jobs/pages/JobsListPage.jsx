@@ -22,7 +22,8 @@ const JobCardSkeleton = () => (
 const JobsListPage = () => {
   const { data, isLoading } = useQuery({ queryKey: ['jobs', { page: 1 }], queryFn: () => listJobs({ page: 1 }) });
 
-  const jobs = data?.data?.jobs || [];
+  // FIX: Properly unwrap the API data
+  const jobs = data?.jobs || data || [];
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -40,10 +41,10 @@ const JobsListPage = () => {
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {jobs.map((job) => (
+          {Array.isArray(jobs) && jobs.map((job) => (
             <Link 
               key={job._id} 
-              to={`/jobs/${job.slug}`} 
+              to={`/candidate/jobs/${job.slug}`} 
               className="group flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-card-hover"
             >
               <div>
@@ -69,9 +70,9 @@ const JobsListPage = () => {
                 <span className="inline-flex items-center rounded-md bg-slate-50 px-2 py-1 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-500/10">
                   📍 {job.location || 'Remote'}
                 </span>
-                {job.type && (
+                {job.jobType && (
                   <span className="inline-flex items-center rounded-md bg-slate-50 px-2 py-1 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-500/10">
-                    💼 {job.type}
+                    💼 {job.jobType}
                   </span>
                 )}
               </div>
@@ -79,7 +80,7 @@ const JobsListPage = () => {
           ))}
           
           {/* Polished Empty State */}
-          {jobs.length === 0 && (
+          {(!Array.isArray(jobs) || jobs.length === 0) && (
             <div className="col-span-full flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white py-16 px-4 text-center shadow-sm">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 mb-4 text-2xl">
                 🔍

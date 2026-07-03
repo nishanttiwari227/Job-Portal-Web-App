@@ -21,8 +21,14 @@ const uploadCandidateResume = async ({ candidateId, file }) => {
 
   const uploadResponse = await cloudinaryService.uploadFile(file.path, 'resumes', 'raw');
 
+  // FIX: Cleanup local temp file to prevent memory leak
+  if (fs.existsSync(file.path)) {
+    fs.unlinkSync(file.path);
+  }
+
+  // FIX: Safe object spreading for Mongoose document
   user.profile = {
-    ...user.profile?.toObject?.(),
+    ...(user.profile || {}),
     resume: {
       url: uploadResponse.secure_url,
       publicId: uploadResponse.public_id,
@@ -50,7 +56,7 @@ const deleteCandidateResume = async ({ candidateId }) => {
   await cloudinaryService.deleteFile(user.profile.resume.publicId, 'raw');
 
   user.profile = {
-    ...user.profile?.toObject?.(),
+    ...(user.profile || {}),
     resume: null,
   };
 
