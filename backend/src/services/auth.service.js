@@ -8,6 +8,7 @@ import {
 } from '../utils/jwt.js';
 import { REGISTERABLE_ROLES } from '../constants/auth.js';
 import { sendVerificationEmailToUser } from './emailVerification.service.js';
+import env from '../config/env.js';
 
 const buildTokenPayload = (user) => ({
   userId: user._id.toString(),
@@ -44,11 +45,19 @@ const registerUser = async ({ name, email, password, role }) => {
     role,
   });
 
-  try {
-    await sendVerificationEmailToUser(user);
-  } catch (error) {
-    await User.findByIdAndDelete(user._id);
-    throw error;
+  if (env.skipEmailVerification) {
+    user.isEmailVerified = true;
+    user.emailVerifiedAt = new Date();
+    user.emailVerificationTokenHash = null;
+    user.emailVerificationTokenExpiresAt = null;
+    await user.save({ validateBeforeSave: false });
+  } else {
+    try {
+      await sendVerificationEmailToUser(user);
+    } catch (error) {
+      await User.findByIdAndDelete(user._id);
+      throw error;
+    }
   }
 
   return { user };
