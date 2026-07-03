@@ -1,6 +1,6 @@
 import express from 'express';
-import { authenticate } from '../middlewares/authenticate.middleware.js';
-import { authorize } from '../middlewares/authorize.middleware.js';
+import  authenticate  from '../middlewares/authenticate.middleware.js';
+import  authorize  from '../middlewares/authorize.middleware.js';
 import {
   getDashboardStatsHandler,
   getUsersHandler,

@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AppLayout from './layouts/AppLayout.jsx';
+import AuthenticatedLayout from './layouts/AuthenticatedLayout.jsx';
 import ProtectedRoute from './routes/ProtectedRoute.jsx';
 import PublicRoute from './routes/PublicRoute.jsx';
 import LoginPage from './features/auth/pages/LoginPage.jsx';
@@ -24,7 +25,7 @@ import RecruiterSettings from './features/recruiter/pages/RecruiterSettings.jsx'
 import JobsListPage from './features/jobs/pages/JobsListPage.jsx';
 import JobDetailsPage from './features/jobs/pages/JobDetailsPage.jsx';
 
-// New Admin Imports
+// Admin Imports
 import AdminWorkspace from './features/admin/AdminWorkspace.jsx';
 import AdminDashboardPage from './features/admin/pages/AdminDashboardPage.jsx';
 import AdminUsersPage from './features/admin/pages/AdminUsersPage.jsx';
@@ -48,11 +49,7 @@ const DashboardRoute = () => {
 
 const RecruiterDashboardRoute = () => {
   const user = useAuthStore((state) => state.user);
-
-  if (user?.role !== 'recruiter') {
-    return <Navigate to="/dashboard" replace />;
-  }
-
+  if (user?.role !== 'recruiter') return <Navigate to="/dashboard" replace />;
   return <RecruiterDashboardPage />;
 };
 
@@ -71,50 +68,24 @@ const AdminOnly = () => {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<AppLayout />}>
+      {/* Public Routes - Uses standard blank AppLayout */}
+      <Route element={<AppLayout />}>
         <Route index element={<Navigate to="/login" replace />} />
-        <Route
-          path="login"
-          element={
-            <PublicRoute>
-              <LoginPage />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="register"
-          element={
-            <PublicRoute>
-              <RegisterPage />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="verify-email"
-          element={
-            <PublicRoute>
-              <EmailVerificationPage />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="logout"
-          element={
-            <ProtectedRoute>
-              <LogoutPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardRoute />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="login" element={<PublicRoute><LoginPage /></PublicRoute>} />
+        <Route path="register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
+        <Route path="verify-email" element={<PublicRoute><EmailVerificationPage /></PublicRoute>} />
+      </Route>
+
+      {/* Protected Routes - Uses AuthenticatedLayout with Header */}
+      <Route element={<ProtectedRoute><AuthenticatedLayout /></ProtectedRoute>}>
         
-        <Route path="candidate" element={<ProtectedRoute><CandidateWorkspace /></ProtectedRoute>}>
+        {/* Kept as fallback in case a user navigates to /logout directly */}
+        <Route path="logout" element={<LogoutPage />} />
+        
+        <Route path="dashboard" element={<DashboardRoute />} />
+        <Route path="recruiter-dashboard" element={<RecruiterDashboardRoute />} />
+        
+        <Route path="candidate" element={<CandidateWorkspace />}>
           <Route path="profile" element={<ProfilePage />} />
           <Route path="resume" element={<ResumePage />} />
           <Route path="saved-jobs" element={<SavedJobsPage />} />
@@ -125,22 +96,7 @@ function App() {
           <Route index element={<Navigate to="/candidate/profile" replace />} />
         </Route>
 
-        <Route
-          path="recruiter-dashboard"
-          element={
-            <ProtectedRoute>
-              <RecruiterDashboardRoute />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="recruiter"
-          element={
-            <ProtectedRoute>
-              <RecruiterOnly />
-            </ProtectedRoute>
-          }
-        >
+        <Route path="recruiter" element={<RecruiterOnly />}>
           <Route path="company" element={<CompanyPage />} />
           <Route path="jobs" element={<JobsPage />} />
           <Route path="jobs/new" element={<JobFormPage />} />
@@ -150,15 +106,7 @@ function App() {
           <Route index element={<Navigate to="/recruiter/company" replace />} />
         </Route>
 
-        {/* Admin Routes */}
-        <Route
-          path="admin"
-          element={
-            <ProtectedRoute>
-              <AdminOnly />
-            </ProtectedRoute>
-          }
-        >
+        <Route path="admin" element={<AdminOnly />}>
           <Route index element={<AdminDashboardPage />} />
           <Route path="users" element={<AdminUsersPage />} />
           <Route path="companies" element={<AdminCompaniesPage />} />
