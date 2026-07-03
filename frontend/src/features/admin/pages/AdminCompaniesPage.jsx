@@ -33,7 +33,7 @@ const AdminCompaniesPage = () => {
               {data?.companies?.map((company) => (
                 <tr key={company._id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{company.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{company.userId?.email || 'N/A'}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{company.ownerRecruiter?.email || 'N/A'}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{company.location || 'N/A'}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(company.createdAt).toLocaleDateString()}</td>
                 </tr>

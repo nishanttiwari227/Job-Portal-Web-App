@@ -34,7 +34,7 @@ const AdminJobsPage = () => {
                 <tr key={job._id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{job.title}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.company?.name || 'N/A'}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.recruiterId?.email || 'N/A'}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{job.recruiter?.email || 'N/A'}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${job.status === 'open' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
                       {job.status}

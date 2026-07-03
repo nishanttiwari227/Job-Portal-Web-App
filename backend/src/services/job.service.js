@@ -2,6 +2,7 @@ import Job from '../models/Job.model.js';
 import Company from '../models/Company.model.js';
 import ApiError from '../utils/apiError.js';
 import { USER_ROLES } from '../constants/app.js';
+import Application from '../models/Application.model.js';
 
 const ALLOWED_JOB_UPDATE_FIELDS = [
   'title',

@@ -80,7 +80,7 @@ const updateUserStatus = async ({ userId, status }) => {
 const getCompanies = async ({ page, limit }) => {
   const skip = (page - 1) * limit;
   const [companies, total] = await Promise.all([
-    Company.find().populate('userId', 'name email').sort({ createdAt: -1 }).skip(skip).limit(limit),
+    Company.find().populate('ownerRecruiter', 'name email').sort({ createdAt: -1 }).skip(skip).limit(limit),
     Company.countDocuments()
   ]);
 
@@ -93,7 +93,7 @@ const getCompanies = async ({ page, limit }) => {
 const getJobs = async ({ page, limit }) => {
   const skip = (page - 1) * limit;
   const [jobs, total] = await Promise.all([
-    Job.find().populate('company').populate('recruiterId', 'name email').sort({ createdAt: -1 }).skip(skip).limit(limit),
+    Job.find().populate('company').populate('recruiter', 'name email').sort({ createdAt: -1 }).skip(skip).limit(limit),
     Job.countDocuments()
   ]);
 
