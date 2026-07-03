@@ -23,6 +23,7 @@ const CandidateSidebar = () => (
       <nav className="mt-2 space-y-1">
         <NavItem to="/candidate/profile" label="Profile" />
         <NavItem to="/candidate/resume" label="Resume" />
+        <NavItem to="/candidate/jobs" label="Jobs" />
         <NavItem to="/candidate/saved-jobs" label="Saved jobs" />
         <NavItem to="/candidate/notifications" label="Notifications" />
         <NavItem to="/candidate/settings" label="Settings" />
