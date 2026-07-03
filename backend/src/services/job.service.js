@@ -185,8 +185,18 @@ const getRecruiterJobs = async ({ recruiterId, page = 1, limit = 20 }) => {
     Job.countDocuments(query),
   ]);
 
+  const jobsWithApplications = await Promise.all(
+    jobs.map(async (job) => {
+      const totalApplications = await Application.countDocuments({ job: job._id });
+      return {
+        ...job.toObject(),
+        totalApplications,
+      };
+    })
+  );
+
   return {
-    jobs,
+    jobs: jobsWithApplications,
     pagination: {
       page,
       limit,
